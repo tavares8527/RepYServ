@@ -1,0 +1,122 @@
+package gui;
+
+import dao.RepuestoDAO;
+import model.Repuesto;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.io.File;
+import java.util.List;
+
+
+/**
+ *
+ * @author gustavo-fuentes
+ */
+public class FormularioRepuestos extends JFrame {
+    private RepuestoDAO dao = new RepuestoDAO();
+    private JTable tabla;
+    private DefaultTableModel modeloTabla;
+
+    public FormularioRepuestos() {
+        setTitle("Gestión de Repuestos y Servicios");
+        setSize(700, 450);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        // Configuración de tabla
+        modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Precio", "Stock"}, 0);
+        tabla = new JTable(modeloTabla);
+        add(new JScrollPane(tabla), BorderLayout.CENTER);
+
+        // Panel de botones
+        JPanel panelBotones = new JPanel();
+
+        JButton btnAgregar = new JButton("Agregar Repuesto");
+        JButton btnAbastecer = new JButton("Abastecer");
+        JButton btnAgotados = new JButton("Ver Agotados");
+        JButton btnVerTodos = new JButton("Ver Todos");
+        JButton btnExportar = new JButton("Exportar CSV");
+        JButton btnImportar = new JButton("Importar CSV");
+
+        panelBotones.add(btnAgregar);
+        panelBotones.add(btnAbastecer);
+        panelBotones.add(btnAgotados);
+        panelBotones.add(btnVerTodos);
+        panelBotones.add(btnExportar);
+        panelBotones.add(btnImportar);
+
+        add(panelBotones, BorderLayout.SOUTH);
+
+        // Eventos
+        btnAgregar.addActionListener(e -> agregar());
+        btnAbastecer.addActionListener(e -> abastecer());
+        btnAgotados.addActionListener(e -> cargarTabla(dao.obtenerAgotados()));
+        btnVerTodos.addActionListener(e -> cargarTabla(dao.obtenerExistencias()));
+        btnExportar.addActionListener(e -> exportarCSV());
+        btnImportar.addActionListener(e -> importarCSV());
+    }
+
+    private void cargarTabla(List<Repuesto> lista) {
+        modeloTabla.setRowCount(0);
+        for (Repuesto r : lista) {
+            modeloTabla.addRow(new Object[]{r.getId(), r.getNombre(), r.getPrecio(), r.getStock()});
+        }
+    }
+
+    private void agregar() {
+        try {
+            String id = JOptionPane.showInputDialog(this, "ID:");
+            String nombre = JOptionPane.showInputDialog(this, "Nombre:");
+            double precio = Double.parseDouble(JOptionPane.showInputDialog(this, "Precio:"));
+            int stock = Integer.parseInt(JOptionPane.showInputDialog(this, "Stock Inicial:"));
+
+            dao.agregarRepuesto(new Repuesto(id, nombre, precio, stock));
+            cargarTabla(dao.obtenerExistencias());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error o valor negativo ingresado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void abastecer() {
+        try {
+            String id = JOptionPane.showInputDialog(this, "ID del Repuesto a abastecer:");
+            int cantidad = Integer.parseInt(JOptionPane.showInputDialog(this, "Cantidad a ingresar:"));
+
+            dao.abastecer(id, cantidad);
+            cargarTabla(dao.obtenerExistencias());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en abastecimiento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void exportarCSV() {
+        JFileChooser fc = new JFileChooser();
+        if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                dao.exportarCSV(fc.getSelectedFile().getAbsolutePath() + ".csv");
+                JOptionPane.showMessageDialog(this, "Exportación exitosa.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al exportar CSV: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void importarCSV() {
+        JFileChooser fc = new JFileChooser();
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                dao.importarCSV(fc.getSelectedFile().getAbsolutePath());
+                cargarTabla(dao.obtenerExistencias());
+                JOptionPane.showMessageDialog(this, "Importación exitosa.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al importar CSV: " + ex.getMessage());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new FormularioRepuestos().setVisible(true));
+    }
+}
