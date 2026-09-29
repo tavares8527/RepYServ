@@ -1,5 +1,6 @@
-/home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/com/mycompany/repyserv/RepyServ.java
 /home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/dao/RepuestoDAO.java
-/home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/gui/FormularioRepuestos.java
+/home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/dao/ServicioDAO.java
+/home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/gui/FormularioServiciosYOrdenes.java
+/home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/model/Orden.java
 /home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/model/Repuesto.java
 /home/gustavo-fuentes/NetBeansProjects/RepyServ/src/main/java/model/Servicio.java

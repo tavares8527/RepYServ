@@ -1,0 +1,6 @@
+dao/RepuestoDAO.class
+dao/ServicioDAO.class
+model/Servicio.class
+model/Repuesto.class
+model/Orden.class
+gui/FormularioServiciosYOrdenes.class

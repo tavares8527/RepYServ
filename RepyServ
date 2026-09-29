@@ -25,12 +25,11 @@ public class FormularioRepuestos extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Configuración de tabla
         modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Precio", "Stock"}, 0);
         tabla = new JTable(modeloTabla);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
-        // Panel de botones
+        
         JPanel panelBotones = new JPanel();
 
         JButton btnAgregar = new JButton("Agregar Repuesto");
@@ -49,7 +48,6 @@ public class FormularioRepuestos extends JFrame {
 
         add(panelBotones, BorderLayout.SOUTH);
 
-        // Eventos
         btnAgregar.addActionListener(e -> agregar());
         btnAbastecer.addActionListener(e -> abastecer());
         btnAgotados.addActionListener(e -> cargarTabla(dao.obtenerAgotados()));

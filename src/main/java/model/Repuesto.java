@@ -25,13 +25,17 @@ public class Repuesto {
     public double getPrecio() { return precio; }
     public int getStock() { return stock; }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public void setPrecio(double precio) {
-        if (precio < 0) throw new IllegalArgumentException("Precio no puede ser negativo");
+        if (precio < 0) throw new IllegalArgumentException("El precio no puede ser negativo.");
         this.precio = precio;
     }
 
     public void setStock(int stock) {
-        if (stock < 0) throw new IllegalArgumentException("Stock no puede ser negativo");
+        if (stock < 0) throw new IllegalArgumentException("El stock no puede ser negativo.");
         this.stock = stock;
     }
 

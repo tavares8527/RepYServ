@@ -25,7 +25,7 @@ public class Servicio {
     public double getCosto() { return costo; }
 
     public void setCosto(double costo) {
-        if (costo < 0) throw new IllegalArgumentException("Costo no puede ser negativo");
+        if (costo < 0) throw new IllegalArgumentException("Costo no puede ser negativo.");
         this.costo = costo;
     }
 
