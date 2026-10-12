@@ -11,10 +11,10 @@ public class Respuesto {
     private double precio;
     private int stock;
 
-    public Repuesto() {
+    public Respuesto() {
     }
 
-    public Repuesto(int idRepuesto, String nombre, double precio, int stock) {
+    public Respuesto(int idRepuesto, String nombre, double precio, int stock) {
         this.idRepuesto = idRepuesto;
         this.nombre = nombre;
         this.precio = precio;
